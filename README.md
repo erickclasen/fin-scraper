@@ -41,8 +41,8 @@ This is a merge between a frontend that scrapes financial data using yfinance an
 
 Works with lower or upper case input as it uses toupper.
 This will plot an Ichimoku chart and 20 Day Bollinger Bands chart.
-Note: The Ichimoku chart is clipped to todays date, it does not go into the "future". This is an issue with the dating.
-Date Issue: The dates are derived from the Index and have an issue as day 1 is 1/1/1970. Not sure how to easily fix this, any suggestions are welcome. (*Spent way more time trying than it took to build this little hack-merge.*)
+Note: The Ichimoku chart is clipped to todays date, it does not go into the "future". This is an issue with the dating, still figuring it out, any input would be helpful.
+Date Issue: Dates line up fine for crypto and anything that tades 24/7, the dates on the chart are offset for other things like stocks that trade 5 days a week. This offset is due to skewing of the index count. Hard to fix this, just FYI and beware of this. The right end of the chart is always "today". Would love to solve this 100%, any ideas are welcome. (*Spent way more time trying than it took to build this little hack-merge.*) The charts shown as examples on this page are from before the fix, so dates are offset far.
 ![BTC-USD -ichimoku](https://user-images.githubusercontent.com/51176457/167054060-2dbf3fd5-4eab-43be-89b2-297b33915db3.png)
 ![BTC-USD -bbands](https://user-images.githubusercontent.com/51176457/167054055-9c11d156-4b74-47cb-ab9e-4aaec828f808.png)
 
