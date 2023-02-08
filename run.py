@@ -20,7 +20,7 @@ def parse_arguments():
             if sys.argv[2] == 'W' or sys.argv[2] == 'w':
                 tick = 'weekly'
 	    # Show extended information like stops and sca charts.
-            elif sys.argv[2].upper() == 'X':
+            elif sys.argv[2].upper() == 'X' or sys.argv[2].upper() == 'I':
                 tick = 'daily'
 
             else:
@@ -54,10 +54,14 @@ import time
 import requests
 import io
 
-start = datetime.datetime(2020,2,1)
-#end = datetime.datetime(2022,4,29)
-
+lookback_in_days = 365*2 # Two years of data to scrape.
+# End the data on today.
 end = datetime.datetime.now()
+
+# Subtract lookback (two years) from today's date
+start = end - datetime.timedelta(days=lookback_in_days)
+
+# Cut in the yfinace data read here...
 
 # Treat the currency label as a list to patch it in.
 Symbols = [currency_label] # ['XMR-USD']
@@ -86,22 +90,31 @@ for i in Symbols:
 
 #print(stock_final.head())
 
-# Cut in the yfinace data read here...
-# Use df rather than stock final.
+# To simplify....Use df rather than stock final.
 df = stock_final
 
-# Ichimoku needs a column with Date so set index to Date column.
+# Ichimoku needs a column with Date as a number running from 0 on 1-1-1970 so reset index.
 # A bit of a hack but works OK.
 df.reset_index(inplace=True)
-#df.shift(periods=17000,axis=0)
 
-df = df.rename(columns = {'index':'Date'})
-df.shift(periods=17000,axis=0)
+# Offset the index to bring it up to the current date, it is a hack but needed as 
+# the ichimonk code usees the index number as the date while the yfinance data has a normal
+# formatted date for a date, like 2023-02-06.
 
-#df.shift(periods=17000)
+# Calculate the number of days between the two dates
+start_date = datetime.datetime(1970, 1, 1) # Linux start date.
+end_date = datetime.datetime.now() # Today
+
+# Need to fudge up the index todays date, minus the Linux Start, minus the lookback period, 2 years.
+offset = (end_date - start_date).days - lookback_in_days + 1
+
+# Finally offset the index
+df.index = df.index + offset
+
 # Cut in the yfinace data read here...
 print(df.tail()) # Sanity check
 
+#quit()
 
 # Initialize with ohcl dataframe
 i = Ichimoku(df)
@@ -115,6 +128,9 @@ underlying_label = ""
 # Plot ichimoku
 i.plot_ichi(currency_label,underlying_label)
 
+# Ichimoku Summary plot mode, only print Ichimoku.
+if len(sys.argv) == 3 and sys.argv[2].upper() == 'I':  
+	quit()
 
 if tick == 'daily':
         i.plot_bb(currency_label,underlying_label)

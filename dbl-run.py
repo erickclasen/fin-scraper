@@ -28,7 +28,7 @@ def parse_arguments():
             if sys.argv[3] == 'W' or sys.argv[3] == 'w':
                 raise Exception("No weekly for yfinance plotting")
             # Show extended information like stops and sca charts.
-            elif sys.argv[3].upper() == 'X':
+            elif sys.argv[3].upper() == 'X' or sys.argv[3].upper() == 'I':
                 tick = 'daily'
 
             else:
@@ -62,10 +62,14 @@ import time
 import requests
 import io
 
-start = datetime.datetime(2020,2,1)
-#end = datetime.datetime(2022,4,29)
 
+lookback_in_days = 365*2 # Two years of data to scrape.
+# End the data on today.
 end = datetime.datetime.now()
+
+# Subtract lookback (two years) from today's date
+start = end - datetime.timedelta(days=lookback_in_days)
+
 
 # Treat the currency label as a list to patch it in.
 Symbols = [currency_label] # ['XMR-USD']
@@ -134,23 +138,34 @@ print(df.tail()) # Sanity check
 dfu = stock_final.tail(800) # tail it so they line up.
 
 # Get the final values which are derived by dividing out the two df's.
-# Divide out by columns to get currency/underlying results.
+# Divide out by columns to get currency/underlying results. Do it inplace, results to df.
 df['Open'] = df['Open']/dfu['Open']
 df['Close'] = df['Close']/dfu['Close']
 df['High'] = df['High']/dfu['High']
 df['Low'] = df['Low']/dfu['Low']
 df['Adj Close'] = df['Adj Close']/dfu['Adj Close']
 
-# Ichimoku needs a column with Date so set index to Date column.
+
+# Ichimoku needs a column with Date that is a series of numbers so reset index. Date becomes its
+# own column.
 # A bit of a hack but works OK.
 df.reset_index(inplace=True)
-#df.shift(periods=17000,axis=0)
-
-df = df.rename(columns = {'index':'Date'})
-df.shift(periods=17000,axis=0)
 
 
-#df.shift(periods=17000)
+# Offset the index to bring it up to the current date, it is a hack but needed as 
+# the ichimonk code usees the index number as the date while the yfinance data has a normal
+# formatted date for a date, like 2023-02-06.
+
+# Calculate the number of days between the two dates
+start_date = datetime.datetime(1970, 1, 1) # Linux start date.
+end_date = datetime.datetime.now() # Today
+
+# Need to fudge up the index todays date, minus the Linux Start, minus the lookback period, 2 years.
+offset = (end_date - start_date).days - lookback_in_days + 1
+
+# Finally offset the index
+df.index = df.index + offset
+
 # Cut in the yfinace data read here...
 print(dfu.tail()) # Sanity check
 print(df.tail()) # Sanity check
@@ -163,6 +178,10 @@ ichimoku_df = i.run()
 
 # Plot ichimoku
 i.plot_ichi(currency_label,underlying_label)
+
+# Ichimoku Summary plot mode, only print Ichimoku.
+if len(sys.argv) == 4 and sys.argv[3].upper() == 'I':  
+	quit()
 
 
 if tick == 'daily':

@@ -152,10 +152,12 @@ class Ichimoku():
     def plot_ichimoku(self, fig, ax, view_limit=100):
         d2 = self.ohcl_df.loc[:, ['tenkan_sen','kijun_sen','senkou_span_a','senkou_span_b', 'chikou_span']]
         d2 = d2.tail(view_limit)
-        #date_axis = self.ohcl_df['Date'].tail(view_limit) #d2.index.values
-        date_axis = d2.index.values #+17000 does not work right this way!!
-        #print(date_axis)
-        #quit()
+        #date_axis = self.ohcl_df['Date'].tail(view_limit) #d2.index.values DEBUG
+       
+	# Ichimonku requires a date axis of counting numbers starting with Unix zero day 1-1-1970.
+	# In run.y this "fixing up" of the index with a proper offset is calculated  and added to
+	# the index, offsetting it's values.
+        date_axis = d2.index.values # Take out the index values, which are ordinal numbers.
 
         # ichimoku
         plt.plot(date_axis, d2['tenkan_sen'], label="tenkan", color='#0496ff', alpha=0.65,linewidth=1.5)
