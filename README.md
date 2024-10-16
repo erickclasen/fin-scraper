@@ -17,10 +17,11 @@ Requires
 
 ## What it is
 This is a merge between a frontend that scrapes financial data using yfinance and a plotting backend that plots prices. It is quick and dirty code. Allows plotting of any tickers that are on Yahoo Finance. Ones that can be found there or on any app that gets this data like on iPhone, iPad the built in stock app. Also covers many cryptos as well. It can plot the ticker or compare two of them and get things like...
-* Gold/Silver ratio ``` ./dbl-run.py gc=f si=f ```
-* ETH/BTC  ``` ./dbl-run.py eth-usd btc-usd ```
-* Stock Pairs like Coca-Cola -v- Pepsi  ``` ./dbl-run.py ko pep ```
-* Assets against a market, like Apple vs SP500   ``` ./dbl-run.py aapl spy ```
+* Gold/Silver ratio ``` ./run.py gc=f si=f ```
+* ETH/BTC  ``` ./run.py eth-btc ```
+* ETH/USD  ``` ./run.py btc-usd ```
+* Stock Pairs like Coca-Cola -v- Pepsi  ``` ./run.py ko pep ```
+* Assets against a market, like Apple vs SP500   ``` ./run.py aapl spy ```
 * Just plain stocks obviously, like   ``` ./run.py msft ```
 
 ### Charts have
@@ -31,7 +32,7 @@ This is a merge between a frontend that scrapes financial data using yfinance an
 * Bollinger bands with 20 day average and 1,2 standard deviations
 * Long Bollinger bands with 200 day average and 1,1.5,2 standard deviations
 * 50 day moving average for long Bollinger Bands
-* Stop loss suggestion plot with 10 day low and 1 and 2 standard deviations off of 5 day moving average
+* Stop loss suggestion plot with 60 day high and 10 day low and 1 and 2 standard deviations off of 10 day minimum price.
 * 30 day price channels
 
 ## Usage Examples
@@ -58,7 +59,7 @@ It also plots what I have called Long Bollinger Bands, which are 200 day version
 
 ### Double Run
 
-``` ./dbl-run.py ko pep ```
+``` ./run.py ko pep ```
 
 Double run is just like the single run expect it takes two assets like Coca-Cola and Pepsi and compares them. This could be used to see when it is a good time to sell one into the other or for hedging for example. Not advice, just ideas.
 
@@ -67,7 +68,7 @@ Double run is just like the single run expect it takes two assets like Coca-Cola
 
 ### Double Run - Extended Charts
 
-``` ./dbl-run.py ko pep x ```
+``` ./run.py ko pep x ```
 
 ![KO PEP-stops](https://user-images.githubusercontent.com/51176457/167054069-ff34cc64-c423-42f3-a1f1-c74f7257d90c.png)
 ![KO-long-bbands](https://user-images.githubusercontent.com/51176457/167054070-3b8cd741-3dde-456a-8864-7410e3dfbcb8.png)
