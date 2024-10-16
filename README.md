@@ -36,6 +36,7 @@ This is a merge between a frontend that scrapes financial data using yfinance an
 * 30 day price channels
 
 ## Usage Examples
+### Note that the images show dates that are incorrect as this code was under development - current code shows proper dates
 
 ### Single Run
 ``` ./yfi-run.py btc-usd ```
