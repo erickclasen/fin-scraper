@@ -18,11 +18,11 @@ Requires
 ## What it is
 This is a merge between a frontend that scrapes financial data using yfinance and a plotting backend that plots prices. It is quick and dirty code. Allows plotting of any tickers that are on Yahoo Finance. Ones that can be found there or on any app that gets this data like on iPhone, iPad the built in stock app. Also covers many cryptos as well. It can plot the ticker or compare two of them and get things like...
 * Gold/Silver ratio ``` ./run.py gc=f si=f ```
-* ETH/BTC  ``` ./run.py eth-btc ```
-* ETH/USD  ``` ./run.py btc-usd ```
-* Stock Pairs like Coca-Cola -v- Pepsi  ``` ./run.py ko pep ```
-* Assets against a market, like Apple vs SP500   ``` ./run.py aapl spy ```
-* Just plain stocks obviously, like   ``` ./run.py msft ```
+* ETH/BTC  ``` ./yfi-run.py eth-btc ```
+* ETH/USD  ``` ./yfi-run.py btc-usd ```
+* Stock Pairs like Coca-Cola -v- Pepsi  ``` ./yfi-run.py ko pep ```
+* Assets against a market, like Apple vs SP500   ``` ./yfi-run.py aapl spy ```
+* Just plain stocks obviously, like   ``` ./yfi-run.py msft ```
 
 ### Charts have
 * Price Close, High and Low
@@ -38,7 +38,7 @@ This is a merge between a frontend that scrapes financial data using yfinance an
 ## Usage Examples
 
 ### Single Run
-``` ./run.py btc-usd ```
+``` ./yfi-run.py btc-usd ```
 
 Works with lower or upper case input as it uses toupper.
 This will plot an Ichimoku chart and 20 Day Bollinger Bands chart.
@@ -50,7 +50,7 @@ Date Issue: Dates line up fine for crypto and anything that tades 24/7, the date
 Prices are show with a solid green band for close price and grey green bands for high and low. Originally used mplfinance but this stopped working at some point so went with a price and bands scheme. See the legend for what the lines are.
 
 ### Single Run - Extended Charts
-``` ./run.py btc-usd x ```
+``` ./yfi-run.py btc-usd x ```
 
 This is an extended mode which will also plot suggested stop loss prices based on the lowest 10 day prices and one standard deviation from a 5 day SMA of price.
 It also plots what I have called Long Bollinger Bands, which are 200 day versions of the Bollinger Bands. This can be a tool to see when it is best to DCA (Dollar Cost Average) in and out of an asset over a long time frame. It also has a yellow 5 day SMA plot on it as an optional filter that states that price must below this as well for confirmation. THe inverse applies to DCA'ing out on peaks. It has 1,1.5 and 2 standard deviations marked off.
@@ -59,7 +59,7 @@ It also plots what I have called Long Bollinger Bands, which are 200 day version
 
 ### Double Run
 
-``` ./run.py ko pep ```
+``` ./yfi-run.py ko pep ```
 
 Double run is just like the single run expect it takes two assets like Coca-Cola and Pepsi and compares them. This could be used to see when it is a good time to sell one into the other or for hedging for example. Not advice, just ideas.
 
@@ -68,7 +68,7 @@ Double run is just like the single run expect it takes two assets like Coca-Cola
 
 ### Double Run - Extended Charts
 
-``` ./run.py ko pep x ```
+``` ./yfi-run.py ko pep x ```
 
 ![KO PEP-stops](https://user-images.githubusercontent.com/51176457/167054069-ff34cc64-c423-42f3-a1f1-c74f7257d90c.png)
 ![KO-long-bbands](https://user-images.githubusercontent.com/51176457/167054070-3b8cd741-3dde-456a-8864-7410e3dfbcb8.png)
@@ -76,3 +76,6 @@ Double run is just like the single run expect it takes two assets like Coca-Cola
 ## Sources
 Not sure who to credit on the initial Ichimoku code that I modded. TBD: Look for clues in my codebase history.
 TBD: Source for yfinance code frontend.
+
+## Notes
+run.py,dbl-run.py and ichimoku.py are legacy versions of this code from when it was first put together quickly. New code yfi*.py is much cleaner and works on the latest as of 10/2024 version of pandas.
