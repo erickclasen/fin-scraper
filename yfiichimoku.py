@@ -69,6 +69,7 @@ class Ichimoku():
         self.plot_channels(fig, ax)
         self.plot_ichimoku(fig, ax)
         #self.plot_bbands(fig, ax)
+        self.plot_volume(fig, ax)
 
         self.pretty_plot(fig, ax,currency_label,underlying_label)
         save_fig(currency_label+"."+underlying_label+"-ichimoku")
@@ -319,6 +320,15 @@ class Ichimoku():
             yield float(x)
             x += decimal.Decimal(jump)
 
+
+    def plot_volume(self, fig, ax):
+        volume_df = self.ohcl_df['Volume'].tail(100)  # Limit the data for the last 100 entries or set as needed
+        ax2 = ax.twinx()  # Create a second y-axis for volume
+        ax2.bar(volume_df.index, volume_df, color='gray', alpha=0.3, width=0.5)
+        ax2.set_ylim(0, volume_df.max() * 4)  # Adjust the y-axis limit as necessary
+        ax2.set_ylabel('Volume', color='gray')
+        ax2.tick_params(axis='y', colors='gray')
+ 
 
 IMAGES_PATH = '/tmp'
 def save_fig(fig_id, tight_layout=True, fig_extension="png", resolution=300):

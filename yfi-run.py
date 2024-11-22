@@ -53,8 +53,10 @@ def download_data(symbols, start, end):
     
     if stock_list:
         stock_final = pd.concat(stock_list, sort=False)
-        print("\nConcatenated DataFrame Head:")
-        print(stock_final.head())  # Debugging: Print the first few rows
+        print("\nConcatenated DataFrame Head/Tail:")
+        print(stock_final.head(5))  # Debugging: Print the first few rows
+        print(stock_final.tail(5))  # Debugging: Print the last few rows
+
         return stock_final
     else:
         print("No valid data downloaded.")
