@@ -34,6 +34,7 @@ This is a merge between a frontend that scrapes financial data using yfinance an
 * 50 day moving average for long Bollinger Bands
 * Stop loss suggestion plot with 60 day high and 10 day low and 1 and 2 standard deviations off of 10 day minimum price.
 * 30 day price channels
+* Volume is show in gray on the bottom of the Ichimoku plot
 
 ## Usage Examples
 ### Note that the images show dates that are incorrect as this code was under development - current code shows proper dates
